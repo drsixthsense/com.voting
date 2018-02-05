@@ -18,13 +18,13 @@ public class Vote implements Serializable {
 
 
     @Id
+    @Column(name = "vote_id")
     @SequenceGenerator(name = "vote_seq", sequenceName = "vote_seq", allocationSize = 1, initialValue = START_SEQ)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vote_seq")
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
-    @NotNull
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -50,6 +50,8 @@ public class Vote implements Serializable {
         this.vote_ts = vote_ts;
         this.comment = comment;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

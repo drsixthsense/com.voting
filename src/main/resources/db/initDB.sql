@@ -70,7 +70,7 @@ CREATE TABLE votes
   user_id               INTEGER                 NOT NULL,
   restaurant_id         INTEGER                 NOT NULL,
   vote_ts               TIMESTAMP               NOT NULL,
-  coomment              VARCHAR                 NOT NULL,
+  comment              VARCHAR                 NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
   FOREIGN KEY (restaurant_id) REFERENCES restaurants (restaurant_id) ON DELETE CASCADE
 );

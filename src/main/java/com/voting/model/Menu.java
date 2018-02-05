@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Access(AccessType.FIELD)
 @Entity
@@ -16,6 +15,7 @@ public class Menu implements Serializable {
     public static final int START_SEQ = 100000;
 
     @Id
+    @Column(name = "menu_id")
     @SequenceGenerator(name = "menu_seq", sequenceName = "menu_seq", allocationSize = 1, initialValue = START_SEQ)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_seq")
     private Integer id;
@@ -25,12 +25,8 @@ public class Menu implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime registered;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "menu")
-    @OrderBy("registered DESC ")
-    private List<MenuDetail> menuDetails;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "created_by_user_id", nullable = false)
     @NotNull
     private User user;
 
@@ -42,19 +38,11 @@ public class Menu implements Serializable {
     public Menu() {
     }
 
-    public Menu(@NotNull LocalDateTime registered, List<MenuDetail> menuDetails, @NotNull User user) {
+    public Menu(@NotNull LocalDateTime registered, @NotNull User user, @NotNull Restaurant restaurant) {
         this.registered = registered;
-        this.menuDetails = menuDetails;
-        this.user = user;
-    }
-
-    public Menu(@NotNull LocalDateTime registered, List<MenuDetail> menuDetails, @NotNull User user, @NotNull Restaurant restaurant) {
-        this.registered = registered;
-        this.menuDetails = menuDetails;
         this.user = user;
         this.restaurant = restaurant;
     }
-
 
     public Integer getId() {
         return id;
@@ -70,14 +58,6 @@ public class Menu implements Serializable {
 
     public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
-    }
-
-    public List<MenuDetail> getMenuDetails() {
-        return menuDetails;
-    }
-
-    public void setMenuDetails(List<MenuDetail> menuDetails) {
-        this.menuDetails = menuDetails;
     }
 
     public User getUser() {

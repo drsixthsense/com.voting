@@ -40,7 +40,7 @@ INSERT INTO menu_details (menu_id, dish, price) VALUES
   (100001, 'Potatoes with pork', 14.00),
   (100001, 'Desert of luck', 6.30);
 
-INSERT INTO votes (user_id, restaurant_id, vote_ts, coomment) VALUES
+INSERT INTO votes (user_id, restaurant_id, vote_ts, comment) VALUES
   (1000, 500000, '1/1/2018 10:10', 'mne huovo'),
   (1001, 500001, '1/1/2018 08:30', 'zaebis tut'),
   (1002, 500000, '1/1/2018 09:20', 'tut foso');

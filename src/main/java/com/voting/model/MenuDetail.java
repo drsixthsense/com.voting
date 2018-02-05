@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 public class MenuDetail {
 
     @Id
+    @Column(name = "menu_details_id")
     @GeneratedValue
     private Integer id;
 
