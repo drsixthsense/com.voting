@@ -2,17 +2,20 @@ package com.voting.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable{
     public static final int START_SEQ = 1000;
 
     @Id
@@ -22,8 +25,11 @@ public class User extends BaseEntity {
 
 
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "role_id"))
-    private Role role;
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 300)
+    private Set<Role> role;
 
 
     @Column(name = "email", nullable = false, unique = true)
@@ -47,7 +53,7 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(Role role, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 6, max = 100) String password, @NotNull LocalDateTime registered) {
+    public User(Set<Role> role, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 6, max = 100) String password, @NotNull LocalDateTime registered) {
         this.role = role;
         this.email = email;
         this.password = password;
@@ -62,11 +68,11 @@ public class User extends BaseEntity {
         this.id = id;
     }
 
-    public Role getRole() {
+    public Set<Role> getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(Set<Role> role) {
         this.role = role;
     }
 

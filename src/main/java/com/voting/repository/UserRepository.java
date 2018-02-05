@@ -1,11 +1,10 @@
-package com.voting.service;
+package com.voting.repository;
 
 import com.voting.model.User;
 
 import java.util.List;
 
-public interface UserService {
-
+public interface UserRepository {
 
     User save(User user);
 
@@ -16,5 +15,4 @@ public interface UserService {
     List<User> getAll();
 
     User getByEmail(String email);
-
 }

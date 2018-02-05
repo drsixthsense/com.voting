@@ -1,6 +1,6 @@
+DROP TABLE IF EXISTS users CASCADE ;
 DROP TABLE IF EXISTS roles CASCADE ;
 DROP TABLE IF EXISTS restaurants CASCADE ;
-DROP TABLE IF EXISTS users CASCADE ;
 DROP TABLE IF EXISTS votes CASCADE ;
 DROP TABLE IF EXISTS menu CASCADE ;
 DROP TABLE IF EXISTS menu_details;
@@ -17,22 +17,24 @@ CREATE SEQUENCE restaurant_seq START 500000;
 CREATE SEQUENCE menu_seq START 100000;
 CREATE SEQUENCE vote_seq START 300000;
 
-CREATE TABLE roles
-(
-  role_id INTEGER PRIMARY KEY DEFAULT nextval('role_seq'),
-  role    VARCHAR
-);
 
 CREATE TABLE users
 (
   id               INTEGER PRIMARY KEY DEFAULT nextval('user_seq'),
-  role_id          INTEGER                 NOT NULL ,
   name             VARCHAR                 NOT NULL,
   email            VARCHAR                 NOT NULL,
   password         VARCHAR                 NOT NULL,
-  registered       TIMESTAMP DEFAULT now() NOT NULL,
-  FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE
+  registered       TIMESTAMP DEFAULT now() NOT NULL
 );
+
+CREATE TABLE roles
+(
+  user_id INTEGER         NOT NULL ,
+  role    VARCHAR,
+  CONSTRAINT user_roles_idx UNIQUE (user_id, role),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE restaurants
@@ -46,7 +48,7 @@ CREATE TABLE restaurants
 CREATE TABLE menu
 (
   menu_id                 INTEGER PRIMARY KEY DEFAULT nextval('menu_seq'),
-  restaurant_id           INTEGER                 NOT NULL,
+  restaurant_id                 INTEGER                 NOT NULL,
   created_by_user_id      INTEGER                 NOT NULL,
   registered              TIMESTAMP DEFAULT now() NOT NULL,
   FOREIGN KEY (restaurant_id) REFERENCES restaurants (restaurant_id) ON DELETE CASCADE,

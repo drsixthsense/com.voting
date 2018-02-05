@@ -11,14 +11,18 @@ ALTER SEQUENCE restaurant_seq RESTART WITH 500000;
 ALTER SEQUENCE menu_seq RESTART WITH 100000;
 ALTER SEQUENCE vote_seq RESTART WITH 300000;
 
-INSERT INTO roles (role) VALUES
-  ('ROLE_USER'  ),
-  ('ROLE_ADMIN' );
 
-INSERT INTO users (role_id, name, email, password) VALUES
-  (1, 'User', 'user@yandex.ru', '{noop}password'),
-  (1, 'Kolhoz', 'kolhoz@yandex.ru', '{noop}password123'),
-  (2, 'Admin', 'admin@gmail.com', '{noop}admin');
+INSERT INTO users (name, email, password) VALUES
+  ( 'User', 'user@yandex.ru', '{noop}password'),
+  ( 'Kolhoz', 'kolhoz@yandex.ru', '{noop}password123'),
+  ( 'Admin', 'admin@gmail.com', '{noop}admin');
+
+INSERT INTO roles (user_id, role) VALUES
+  (1000, 'ROLE_USER'),
+  (1001, 'ROLE_USER'),
+  (1002, 'ROLE_ADMIN'),
+  (1002, 'ROLE_USER')
+;
 
 INSERT INTO restaurants (restaurant_name, restaurant_address) VALUES
   ('Bitching Restaurant', 'Asshole st. 15'),

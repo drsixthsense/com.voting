@@ -7,12 +7,13 @@ import org.springframework.data.annotation.AccessType;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @AccessType(value = AccessType.Type.FIELD)
 @Entity
 @Table(name = "votes")
-public class Vote {
+public class Vote implements Serializable {
     public static final int START_SEQ = 300000;
 
 

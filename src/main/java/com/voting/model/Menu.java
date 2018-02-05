@@ -5,13 +5,14 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Access(AccessType.FIELD)
 @Entity
-@Table(name = "menus")
-public class Menu {
+@Table(name = "menu")
+public class Menu implements Serializable {
     public static final int START_SEQ = 100000;
 
     @Id
@@ -33,7 +34,7 @@ public class Menu {
     @NotNull
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
     private Restaurant restaurant;
@@ -41,6 +42,11 @@ public class Menu {
     public Menu() {
     }
 
+    public Menu(@NotNull LocalDateTime registered, List<MenuDetail> menuDetails, @NotNull User user) {
+        this.registered = registered;
+        this.menuDetails = menuDetails;
+        this.user = user;
+    }
 
     public Menu(@NotNull LocalDateTime registered, List<MenuDetail> menuDetails, @NotNull User user, @NotNull Restaurant restaurant) {
         this.registered = registered;
